@@ -53,7 +53,7 @@
     {
       "name": "gdrive-sync",
       "title": "Google Drive Sync",
-      "description": "Sync family domain folders (00_-09_) and Docs to Google Drive",
+      "description": "Sync family domain folders (00_-09_), Docs, and reports to Google Drive",
       "short_description": "Tindol Family - GDrive Sync",
       "source": "_Agent/SKILLS/gdrive-sync/SKILL.md"
     },

@@ -1,6 +1,6 @@
 ---
 name: gdrive-sync
-description: "Sync family domain folders (00_-09_) and Docs to Google Drive"
+description: "Sync family domain folders (00_-09_), Docs, and reports to Google Drive"
 metadata:
   short-description: "Tindol Family - GDrive Sync"
 ---

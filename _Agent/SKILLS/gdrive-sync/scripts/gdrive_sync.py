@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sync Tindol Family domain folders and Docs to Google Drive.
+"""Sync Tindol Family domain folders, Docs, and reports to Google Drive.
 
 Defaults to dry-run. Add --sync to actually upload files.
 """
@@ -26,7 +26,7 @@ SCOPES = ["https://www.googleapis.com/auth/drive.file"]
 SKIP_DIRS = {".claude", ".agents", ".gemini", "_Agent", ".git"}
 SKIP_EXTENSIONS = {".pyc", ".pyo"}
 DOMAIN_PREFIXES = tuple(f"{i:02d}_" for i in range(10))
-DEFAULT_TOP_LEVEL_FOLDERS = ("Docs",)
+DEFAULT_TOP_LEVEL_FOLDERS = ("Docs", "_Reports")
 
 
 def find_sync_folders(root: Path, domains: list[str] | None) -> list[Path]:
@@ -152,7 +152,7 @@ def main() -> None:
         "--domains",
         nargs="*",
         metavar="NN",
-        help="Two-digit domain numbers to sync, e.g. 00 06. Default: all domains plus Docs.",
+        help="Two-digit domain numbers to sync, e.g. 00 06. Default: all domains plus Docs and _Reports.",
     )
     args = parser.parse_args()
 

@@ -4,7 +4,7 @@ Aliases: gdrive sync, gdrive-sync, drive sync, backup to drive, sync to google d
 
 ## Purpose
 
-Sync the ten Tindol Family domain folders (`00_Calendar` through `09_Holidays_Birthdays`) and the project `Docs/` folder to Google Drive, mirroring the local folder hierarchy inside a root Drive folder called `Tindol Family Hub`.
+Sync the ten Tindol Family domain folders (`00_Calendar` through `09_Holidays_Birthdays`), the project `Docs/` folder, and the `_Reports/` folder to Google Drive, mirroring the local folder hierarchy inside a root Drive folder called `Tindol Family Hub`.
 
 ## Safety
 
@@ -14,6 +14,7 @@ Sync the ten Tindol Family domain folders (`00_Calendar` through `09_Holidays_Bi
 - Do not upload any files to Google Drive without explicit user confirmation and the `--sync` flag.
 - Do not sync `_Agent/`, `.claude/`, `.agents/`, `.gemini/`, or any hidden directory.
 - Include `/Users/tindolhouse/Documents/Claude/Projects/Tindol Family Codex Claude/Docs` in the default dry-run and sync.
+- Include `/Users/tindolhouse/Documents/Claude/Projects/Tindol Family Codex Claude/_Reports` in the default dry-run and sync.
 - Local Markdown/CSV stays the durable source of truth; Drive is a backup, not the primary store.
 
 ## Scripts
@@ -55,7 +56,7 @@ Dry-run (lists all files that would be uploaded, no changes made):
 python3 "_Agent/SKILLS/gdrive-sync/scripts/gdrive_sync.py"
 ```
 
-Sync all ten domain folders plus `Docs/` to Drive:
+Sync all ten domain folders plus `Docs/` and `_Reports/` to Drive:
 
 ```bash
 python3 "_Agent/SKILLS/gdrive-sync/scripts/gdrive_sync.py" --sync
