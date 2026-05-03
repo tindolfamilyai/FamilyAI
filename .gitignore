@@ -1,0 +1,63 @@
+# Family data — kept local, synced to Drive via gdrive-sync skill
+00_Calendar/
+01_Daily_Weekly/
+02_Health_Fitness/
+03_Kids/
+04_Pets/
+05_Home/
+06_Finances/
+07_Travel/
+08_Social_Media_Orlando_Theme_Park_Family/
+09_Holidays_Birthdays/
+
+# Personal data folders — local only
+_Attachments/
+_Inbox/
+_Archive/
+_Reports/
+
+# Reference docs — local only
+Docs/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+.DS_Store
+**/.DS_Store
+
+# Local agent scratch and cache files
+.codex/
+.claude/*
+!.claude/
+!.claude/skills/
+!.claude/skills/**/
+!.claude/skills/**/SKILL.md
+.claude/settings.local.json
+.gemini/*
+!.gemini/
+!.gemini/commands/
+!.gemini/commands/**/
+!.gemini/commands/**/*.toml
+!.gemini/settings.json
+.gemini/.env
+.cache/
+tmp/
+temp/
+*.tmp
+
+# Secrets and local OAuth tokens
+credentials.json
+token.json
+*.token.json
+.env
+_Agent/SECRETS/
+slack.env
+*.slack.env
+
+# Generated exports that should be intentionally added if needed
+exports/
+
+# Local runner logs
+_Reports/**/logs/

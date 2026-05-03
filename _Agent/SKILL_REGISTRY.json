@@ -1,0 +1,124 @@
+{
+  "project_root": "/Users/tindolhouse/Documents/Claude/Projects/Tindol Family Codex Claude",
+  "skills": [
+    {
+      "name": "agent-sync",
+      "title": "Agent Instruction Sync",
+      "description": "Sync AGENTS.md, CLAUDE.md, and GEMINI.md launchers to stay consistent",
+      "short_description": "Tindol Family - Agent sync",
+      "source": "_Agent/SKILLS/agent-sync/SKILL.md"
+    },
+    {
+      "name": "calendar",
+      "title": "Calendar Management",
+      "description": "Add, update, or review family calendar events and task work blocks",
+      "short_description": "Tindol Family - Calendar",
+      "source": "_Agent/SKILLS/calendar/SKILL.md"
+    },
+    {
+      "name": "daily-brief",
+      "title": "Daily Brief",
+      "description": "Build the Tindol Family daily brief from calendar, workouts, meals, and email",
+      "short_description": "Tindol Family - Daily brief",
+      "source": "_Agent/SKILLS/daily-brief/SKILL.md"
+    },
+    {
+      "name": "daily-household",
+      "title": "Daily Household Ops",
+      "description": "Maintain family routines, checklists, household chores, and the to-do list",
+      "short_description": "Tindol Family - Daily household",
+      "source": "_Agent/SKILLS/daily-household/SKILL.md"
+    },
+    {
+      "name": "finance",
+      "title": "Finance Tracking",
+      "description": "Track expenses, budgets, subscriptions, and savings goals",
+      "short_description": "Tindol Family - Finance",
+      "source": "_Agent/SKILLS/finance/SKILL.md"
+    },
+    {
+      "name": "fitness",
+      "title": "Fitness Logging",
+      "description": "Log workouts and maintain workout plans for Blake and Melina",
+      "short_description": "Tindol Family - Fitness",
+      "source": "_Agent/SKILLS/fitness/SKILL.md"
+    },
+    {
+      "name": "google-workspace",
+      "title": "Google Workspace Ops",
+      "description": "Use Google Calendar, Gmail, and Drive scripts for live context",
+      "short_description": "Tindol Family - Google Workspace",
+      "source": "_Agent/SKILLS/google-workspace/SKILL.md"
+    },
+    {
+      "name": "gdrive-sync",
+      "title": "Google Drive Sync",
+      "description": "Sync family domain folders (00_-09_) and Docs to Google Drive",
+      "short_description": "Tindol Family - GDrive Sync",
+      "source": "_Agent/SKILLS/gdrive-sync/SKILL.md"
+    },
+    {
+      "name": "home",
+      "title": "Home Maintenance",
+      "description": "Track home repairs, maintenance, inventory, warranties, and seasonal reminders",
+      "short_description": "Tindol Family - Home",
+      "source": "_Agent/SKILLS/home/SKILL.md"
+    },
+    {
+      "name": "inbox",
+      "title": "Inbox Triage",
+      "description": "Sort and route unsorted notes, receipts, and ideas from _Inbox/",
+      "short_description": "Tindol Family - Inbox",
+      "source": "_Agent/SKILLS/inbox/SKILL.md"
+    },
+    {
+      "name": "kids",
+      "title": "Kids Records",
+      "description": "Maintain child profiles, medical logs, growth logs, and learning records",
+      "short_description": "Tindol Family - Kids",
+      "source": "_Agent/SKILLS/kids/SKILL.md"
+    },
+    {
+      "name": "meals",
+      "title": "Meal Planning",
+      "description": "Plan meals, update grocery list, preserve recipes, and log nutrition",
+      "short_description": "Tindol Family - Meals",
+      "source": "_Agent/SKILLS/meals/SKILL.md"
+    },
+    {
+      "name": "pets",
+      "title": "Pets Records",
+      "description": "Maintain pet profiles, vet logs, feeding schedule, and walks log",
+      "short_description": "Tindol Family - Pets",
+      "source": "_Agent/SKILLS/pets/SKILL.md"
+    },
+    {
+      "name": "slack",
+      "title": "Slack Ops",
+      "description": "Read Slack workspace metadata and messages; send only with explicit approval",
+      "short_description": "Tindol Family - Slack",
+      "source": "_Agent/SKILLS/slack/SKILL.md"
+    },
+    {
+      "name": "social",
+      "title": "Social Media Ops",
+      "description": "Maintain Melina's content calendar, analytics, and brand partnerships",
+      "short_description": "Tindol Family - Social",
+      "source": "_Agent/SKILLS/social/SKILL.md"
+    },
+    {
+      "name": "tasks",
+      "title": "Task Intake Ops",
+      "description": "Capture task dumps, route to todo.md, and schedule work blocks on the calendar",
+      "short_description": "Tindol Family - Tasks",
+      "source": "_Agent/SKILLS/tasks/SKILL.md"
+    },
+    {
+      "name": "travel",
+      "title": "Travel Planning",
+      "description": "Create and maintain trip plans, budgets, packing lists, and calendar items",
+      "short_description": "Tindol Family - Travel",
+      "source": "_Agent/SKILLS/travel/SKILL.md"
+    }
+  ]
+}

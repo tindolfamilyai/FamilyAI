@@ -1,0 +1,15 @@
+{
+  "general": {
+    "checkpointing": {
+      "enabled": true
+    }
+  },
+  "tools": {
+    "sandbox": true,
+    "sandboxNetworkAccess": true,
+    "sandboxAllowedPaths": [
+      "/Users/tindolhouse/.config/tindol-family-google",
+      "/Users/tindolhouse/.config/tindol-family-slack"
+    ]
+  }
+}
