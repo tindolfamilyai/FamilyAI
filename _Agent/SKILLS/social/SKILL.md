@@ -15,6 +15,8 @@ Maintain Melina's social media planning, content calendar, analytics, and brand 
 5. Put partnership opportunities and deliverables in `brand_partnerships.csv`.
 6. Add due dates or posting dates to the calendar when useful.
 
+For internet research, event discovery, theme park news, restaurant/food scouting, or daily Orlando content opportunity scanning, use `_Agent/SKILLS/social-research/SKILL.md`.
+
 ## Dry Run
 
 Show the content, analytics, or partnership rows that would be added.

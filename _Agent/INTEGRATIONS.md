@@ -155,6 +155,14 @@ For message sending:
 - `chat:write`
 - `im:write`
 
+For the local Slack-to-Codex bridge in General:
+
+- `channels:history`
+- `channels:read`
+- `chat:write`
+
+The bridge watches channel `C0AUWRU29V5` and only responds to messages that start with `codex:`. It replies in the triggering message thread and stores state/logs under `_Reports/Slack_Codex/`.
+
 Slack apps only see conversations allowed by token scopes and app membership. For private channels and DMs, the app must have the right scopes and access.
 
 Official references:

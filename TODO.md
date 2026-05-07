@@ -15,7 +15,7 @@
 
 # To Do
 - understand ruflo?
-- make gemini and quen for codex using mlx and unsloth work at reduced.
+- make gemini and qwen 3.6 for codex using mlx and unsloth work at reduced. --------------------------------------------- ****** NEXT
 - try to get slack to be web hook to interact with this . ? mouse jiggler?
 - github cli research and documentation
 - github cli actual usecase?

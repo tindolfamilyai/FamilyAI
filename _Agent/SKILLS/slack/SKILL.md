@@ -24,10 +24,12 @@ Available read-only scripts:
 - `slack_auth_test.py`
 - `slack_list_conversations.py`
 - `slack_recent_messages.py`
+- `slack_codex_bridge.py --once --dry-run`
 
 Write-capable script, dry-run by default:
 
 - `slack_send_message.py`
+- `slack_codex_bridge.py` — polls one approved channel for messages starting with `codex:` and replies in-thread after running Codex locally.
 
 Shared auth/client helper:
 
@@ -86,6 +88,21 @@ Send a long Markdown/text brief from file:
 ```bash
 python3 "_Agent/SKILLS/slack/scripts/slack_send_message.py" --channel CHANNEL_ID --text-file "/absolute/path/to/brief.md" --send
 ```
+
+Slack-to-Codex bridge for General channel `C0AUWRU29V5`:
+
+```bash
+python3 "_Agent/SKILLS/slack/scripts/slack_codex_bridge.py" --mark-now
+_Agent/RUNNERS/slack_codex_bridge.sh
+```
+
+Once running, post in General with this exact prefix:
+
+```text
+codex: run daily brief chat-only
+```
+
+The bridge stores state and logs under `_Reports/Slack_Codex/`.
 
 ## Skill Integrations
 

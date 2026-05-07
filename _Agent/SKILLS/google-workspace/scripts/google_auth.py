@@ -77,8 +77,18 @@ def get_credentials(scopes: Sequence[str] | None = None, token_file: Path | None
             flow = InstalledAppFlow.from_client_secrets_file(str(creds_file), active_scopes)
             creds = flow.run_local_server(port=0)
 
-        active_token_file.parent.mkdir(parents=True, exist_ok=True)
-        active_token_file.write_text(creds.to_json(), encoding="utf-8")
-        active_token_file.chmod(0o600)
+        # Attempt to persist the token, but handle sandbox/permission restrictions gracefully.
+        try:
+            active_token_file.parent.mkdir(parents=True, exist_ok=True)
+            active_token_file.write_text(creds.to_json(), encoding="utf-8")
+            active_token_file.chmod(0o600)
+        except PermissionError:
+            # In some sandboxed environments (like macOS Seatbelt), writing outside the project
+            # may be blocked even if read access is allowed. We continue with the valid
+            # in-memory credentials so the calling script can still complete.
+            pass
+        except Exception as e:
+            # Log other unexpected errors but try to proceed.
+            print(f"Warning: Could not save token to {active_token_file}: {e}")
 
     return creds

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Generate Codex and Claude skill wrappers from the Tindol skill registry.
+"""Generate Codex, Claude, and Gemini skill wrappers from the Tindol skill registry.
 
-Gemini CLI loads repo skills through the .agents/skills alias, so this script
-intentionally does not generate .gemini/skills or ~/.gemini/skills wrappers.
+Codex and Claude use Markdown wrappers, while Gemini uses TOML custom commands
+to enable slash command parity (e.g., /daily-brief).
 """
 
 from __future__ import annotations
@@ -59,6 +59,33 @@ def load_registry() -> list[dict[str, str]]:
 
 def wrapper_text(skill: dict[str, str], *, tool: str, global_wrapper: bool) -> str:
     source_path = PROJECT_ROOT / skill["source"]
+    if tool == "gemini":
+        lines = [
+            f'description = {_yaml_string(skill["description"])}',
+            'prompt = """',
+            f"# {skill['title']} (Tindol Family Hub)",
+            "",
+            f"<!-- {GENERATED_MARKER}; do not edit by hand. -->",
+            "",
+            "This is a generated wrapper for a canonical Tindol Family Hub skill.",
+            "",
+            "## Project Root",
+            "",
+            str(PROJECT_ROOT),
+            "",
+            "## Canonical Skill",
+            "",
+            str(source_path),
+            "",
+            "## Instructions",
+            "",
+            "1. Change to the project root if you are not already there.",
+            "2. Read the canonical skill file above.",
+            "3. Follow the canonical skill workflow and safety rules.",
+            '"""',
+        ]
+        return "\n".join(lines)
+
     lines = [
         "---",
         f"name: {skill['name']}",
@@ -114,67 +141,57 @@ def target_paths(skills: list[dict[str, str]], *, project: bool, global_target: 
         if project:
             targets.append((PROJECT_ROOT / ".agents" / "skills" / skill["name"] / "SKILL.md", "codex", False, skill["name"]))
             targets.append((PROJECT_ROOT / ".claude" / "skills" / skill["name"] / "SKILL.md", "claude", False, skill["name"]))
+            targets.append((PROJECT_ROOT / ".gemini" / "commands" / f"{skill['name']}.toml", "gemini", False, skill["name"]))
         if global_target:
             targets.append((Path.home() / ".codex" / "skills" / skill["name"] / "SKILL.md", "codex", True, skill["name"]))
             targets.append((Path.home() / ".claude" / "skills" / skill["name"] / "SKILL.md", "claude", True, skill["name"]))
+            targets.append((Path.home() / ".gemini" / "commands" / f"{skill['name']}.toml", "gemini", True, skill["name"]))
     return targets
 
 
-def clean_project_targets(skills: list[dict[str, str]], *, project: bool, check: bool) -> list[str]:
-    if not project:
+def clean_project_targets(skills: list[dict[str, str]], *, project: bool, global_target: bool, check: bool) -> list[str]:
+    if not project and not global_target:
         return []
     errors: list[str] = []
     expected = {skill["name"] for skill in skills}
-    for base in [
-        PROJECT_ROOT / ".agents" / "skills",
-        PROJECT_ROOT / ".claude" / "skills",
-    ]:
-        if not base.exists():
-            continue
-        for skill_file in base.glob("*/SKILL.md"):
-            if skill_file.parent.name in expected:
-                continue
-            text = skill_file.read_text(encoding="utf-8")
-            if GENERATED_MARKER not in text:
-                errors.append(f"Unmanaged project skill wrapper present: {skill_file}")
-                continue
-            if check:
-                errors.append(f"Generated stale project wrapper present: {skill_file}")
-            else:
-                skill_file.unlink()
-                try:
-                    skill_file.parent.rmdir()
-                except OSError:
-                    pass
-    return errors
 
-
-def clean_gemini_duplicate_targets(skills: list[dict[str, str]], *, project: bool, global_target: bool, check: bool) -> list[str]:
-    """Remove generated Gemini wrappers that would duplicate .agents/skills."""
-    errors: list[str] = []
-    bases: list[Path] = []
+    bases: list[tuple[Path, str, bool]] = []
     if project:
-        bases.append(PROJECT_ROOT / ".gemini" / "skills")
+        bases.extend([
+            (PROJECT_ROOT / ".agents" / "skills", "skill", True),
+            (PROJECT_ROOT / ".claude" / "skills", "skill", True),
+            (PROJECT_ROOT / ".gemini" / "commands", "command", True),
+        ])
     if global_target:
-        bases.append(Path.home() / ".gemini" / "skills")
+        bases.extend([
+            (Path.home() / ".codex" / "skills", "skill", False),
+            (Path.home() / ".claude" / "skills", "skill", False),
+            (Path.home() / ".gemini" / "commands", "command", False),
+        ])
 
-    for base in bases:
+    for base, target_type, flag_unmanaged in bases:
         if not base.exists():
             continue
-        for skill in skills:
-            skill_file = base / skill["name"] / "SKILL.md"
-            if not skill_file.exists():
+        if target_type == "command":
+            candidates = list(base.glob("*.toml"))
+        else:
+            candidates = list(base.glob("*/SKILL.md"))
+        for skill_file in candidates:
+            skill_name = skill_file.stem if skill_file.suffix == ".toml" else skill_file.parent.name
+            if skill_name in expected:
                 continue
             text = skill_file.read_text(encoding="utf-8")
             if GENERATED_MARKER not in text:
-                errors.append(f"Unmanaged Gemini skill wrapper conflicts with Tindol skill: {skill_file}")
+                if flag_unmanaged:
+                    errors.append(f"Unmanaged project skill wrapper present: {skill_file}")
                 continue
             if check:
-                errors.append(f"Generated duplicate Gemini wrapper present: {skill_file}")
+                errors.append(f"Generated stale skill wrapper present: {skill_file}")
             else:
                 skill_file.unlink()
                 try:
-                    skill_file.parent.rmdir()
+                    if skill_file.suffix == ".md":
+                        skill_file.parent.rmdir()
                 except OSError:
                     pass
     return errors
@@ -182,8 +199,7 @@ def clean_gemini_duplicate_targets(skills: list[dict[str, str]], *, project: boo
 
 def sync(check: bool, project: bool, global_target: bool) -> int:
     skills = load_registry()
-    errors = clean_project_targets(skills, project=project, check=check)
-    errors.extend(clean_gemini_duplicate_targets(skills, project=project, global_target=global_target, check=check))
+    errors = clean_project_targets(skills, project=project, global_target=global_target, check=check)
 
     by_name = {skill["name"]: skill for skill in skills}
     for path, tool, is_global, name in target_paths(skills, project=project, global_target=global_target):

@@ -86,7 +86,7 @@ def main() -> int:
 
     skills = load_skills()
     skill_names = [skill.get("name", "") for skill in skills]
-    check(len(skill_names) == 16, f"Expected 16 registry skills, found {len(skill_names)}", errors)
+    expected_skill_count = len(skill_names)
     check(len(set(skill_names)) == len(skill_names), "Registry has duplicate skill names", errors)
 
     for skill in skills:
@@ -100,9 +100,21 @@ def main() -> int:
         for name in skill_names:
             check((base / name / "SKILL.md").exists(), f"Missing project wrapper: {base / name / 'SKILL.md'}", errors)
 
+    for name in skill_names:
+        command_path = PROJECT_ROOT / ".gemini" / "commands" / f"{name}.toml"
+        check(command_path.exists(), f"Missing project Gemini command: {command_path}", errors)
+
     for base in [Path.home() / ".codex" / "skills", Path.home() / ".claude" / "skills"]:
         found = [name for name in skill_names if (base / name / "SKILL.md").exists()]
-        check(len(found) == 16, f"Expected 16 Tindol global wrappers under {base}, found {len(found)}", errors)
+        check(
+            len(found) == expected_skill_count,
+            f"Expected {expected_skill_count} Tindol global wrappers under {base}, found {len(found)}",
+            errors,
+        )
+
+    for name in skill_names:
+        global_command_path = Path.home() / ".gemini" / "commands" / f"{name}.toml"
+        check(global_command_path.exists(), f"Missing global Gemini command: {global_command_path}", errors)
 
     for base in [PROJECT_ROOT / ".gemini" / "skills", Path.home() / ".gemini" / "skills"]:
         for name in skill_names:
@@ -150,8 +162,6 @@ def main() -> int:
         check(settings.get("general", {}).get("checkpointing", {}).get("enabled") is True, ".gemini/settings.json does not enable checkpointing", errors)
         check(settings.get("tools", {}).get("sandbox") is True, ".gemini/settings.json does not enable sandboxing", errors)
         check(settings.get("tools", {}).get("sandboxNetworkAccess") is True, ".gemini/settings.json does not enable sandbox network access", errors)
-    gemini_command = PROJECT_ROOT / ".gemini" / "commands" / "daily-brief.toml"
-    check(not gemini_command.exists(), ".gemini/commands/daily-brief.toml conflicts with the daily-brief skill command", errors)
 
     global_gemini = Path.home() / ".gemini" / "GEMINI.md"
     check(global_gemini.exists(), "~/.gemini/GEMINI.md is missing", errors)

@@ -107,6 +107,13 @@
       "source": "_Agent/SKILLS/social/SKILL.md"
     },
     {
+      "name": "social-research",
+      "title": "Orlando Theme Park Family New-Finds Scout",
+      "description": "Find new Orlando and Florida events, parks, food, and family content leads and send a Slack update",
+      "short_description": "Tindol Family - Social research",
+      "source": "_Agent/SKILLS/social-research/SKILL.md"
+    },
+    {
       "name": "tasks",
       "title": "Task Intake Ops",
       "description": "Capture task dumps, route to todo.md, and schedule work blocks on the calendar",
