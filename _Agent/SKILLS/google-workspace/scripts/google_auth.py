@@ -11,6 +11,7 @@ import os
 from pathlib import Path
 from typing import Sequence
 
+from google.auth.exceptions import RefreshError
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -72,7 +73,12 @@ def get_credentials(scopes: Sequence[str] | None = None, token_file: Path | None
 
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
+            try:
+                creds.refresh(Request())
+            except RefreshError:
+                creds = None
+                flow = InstalledAppFlow.from_client_secrets_file(str(creds_file), active_scopes)
+                creds = flow.run_local_server(port=0)
         else:
             flow = InstalledAppFlow.from_client_secrets_file(str(creds_file), active_scopes)
             creds = flow.run_local_server(port=0)
